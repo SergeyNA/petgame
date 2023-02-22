@@ -1,9 +1,9 @@
-#ifndef EXTERN_VAR
+#ifndef EXTERN_VAR //#pragma once
 #define EXTERN_VAR
 
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 540;
-#define TECHNOLOGIES_COUNT 40
+#define TECHNOLOGIES_COUNT 40 //Research_tree.cpp
 
 bool FULLSCREEN = false;
 
@@ -38,7 +38,5 @@ bool node_is_shifted;
 std::string logMessage = "";
 
 enum Construction_mode {OVERVIEW_MODE, CREATE_HULL_MODE = 0, LOG_OPEN, LOADING_SHIP} construction_mode;
-
-//int Fleet::move_per_turn = 1;
 
 #endif

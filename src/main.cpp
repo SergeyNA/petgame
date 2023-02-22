@@ -12,15 +12,15 @@
 #include "resources_controller.h"
 
 #include "SDL_func.cpp"
+#include "Fleet.cpp"
+#include "Logger.cpp"
 /*#include "Tips.cpp"
 #include "Research_tree.cpp"
 #include "Scroller.cpp"
-#include "Fleet.cpp"
 #include "space_ship_constructor.cpp"
 #include "Planet.cpp"
 #include "map.cpp"
 #include "Interface.cpp"
-#include "Logger.cpp"
 #include "game_logic.cpp"*/
 
 bool game_res_init()
@@ -44,19 +44,19 @@ bool game_res_init()
         return false;
 
     if(!MENU.init())
-        return false;
+        return false;*/
 
     LOG.add_message("Game start! Your's turn...", WHITE, 0);
-    if(!LOG.log_scroller.setImage("Scroller-icon.png", true))
+    if(!LOG.log_scroller.setImage("../img/Scroller-icon.png", true))
         return false;
     LOG.log_scroller.setPos( SCREEN_WIDTH * 3 / 4 - 15, SCREEN_HEIGHT / 2 - 10 );
 
-    close_branch.loadFromFile("research_trig_close.png", true);
-    open_branch.loadFromFile("research_trig_open.png", true);
+    /*close_branch.loadFromFile("research_trig_close.png", true);
+    open_branch.loadFromFile("research_trig_open.png", true);*/
 
     fleets.push_back(Fleet(9, 3));
 
-    technologies[0].init("ROOT", 0, 0, 0, new int[1]{0});
+    /*technologies[0].init("ROOT", 0, 0, 0, new int[1]{0});
     technologies[0].setChildren(new int[5]{1, 2, 3, 4, 5}, 5);
     technologies[0].opened = true;
 
@@ -150,10 +150,10 @@ int main(int argc, char* argv[])
                 switch(e.key.keysym.sym) {
                 case SDLK_q:
                     goto endgame;
-                /*case SDLK_m:
+                case SDLK_m:
                     LOG.add_message("Some event " + toString(LOG.getMessageCount()), static_cast<font_colors>(rand()%5), 0);
                     break;
-                case SDLK_r:
+                /*case SDLK_r:
                     if(MENU.isShipyard())
                     {
                         ship.x_offset = 0;
@@ -291,7 +291,7 @@ int main(int argc, char* argv[])
         }
 
         //MENU.render();
-        //LOG.render();
+        LOG.render();
         //MENU.render_cursor();
         //==============SDL_SetRenderDrawColor( renderer, 0, 150, 0, 255 ); //background color
 
