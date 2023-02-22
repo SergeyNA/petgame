@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1677021483 source:/home/serg/gamedev/SpaceshipBuilder/src/resources_controller.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<cmath>
+	<sstream>
+	<vector>
+	<fstream>
+	<SDL2/SDL.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_image.h>
+	"SDL_func.cpp"
+	"Research_tree.cpp"
+	"Scroller.cpp"
+	"Fleet.cpp"
+	"space_ship_constructor.cpp"
+	"Planet.cpp"
+	"map.cpp"
+	"Interface.cpp"
+	"Logger.cpp"
+	"game_logic.cpp"
+
+1677024783 /home/serg/gamedev/SpaceshipBuilder/src/SDL_func.cpp
+
+1677025105 source:/home/serg/gamedev/SpaceshipBuilder/src/main.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<cmath>
+	<sstream>
+	<vector>
+	<fstream>
+	<SDL2/SDL.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_image.h>
+	"resources_controller.h"
+	"SDL_func.cpp"
+	"Research_tree.cpp"
+	"Scroller.cpp"
+	"Fleet.cpp"
+	"space_ship_constructor.cpp"
+	"Planet.cpp"
+	"map.cpp"
+	"Interface.cpp"
+	"Logger.cpp"
+	"game_logic.cpp"
+
+1677025023 /home/serg/gamedev/SpaceshipBuilder/src/resources_controller.h
+
