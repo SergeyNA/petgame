@@ -8,7 +8,7 @@ void action_handler(game_event e)
         for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
             it->newTurn();
 
-        people = 0;
+        people = static_cast<int>(people * 1.1);
         //field.newTurn();
 
         resourses += static_cast<int>(floor(people * MENU.top_scroller.getVal()) + .5);

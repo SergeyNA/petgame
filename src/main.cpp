@@ -12,16 +12,16 @@
 #include "resources_controller.h"
 
 #include "SDL_func.cpp"
-#include "Fleet.cpp"
-#include "Logger.cpp"
-/*#include "Tips.cpp"
-#include "Research_tree.cpp"
+//#include "Tips.cpp"
 #include "Scroller.cpp"
+#include "Interface.cpp"
+#include "Logger.cpp"
+#include "Fleet.cpp"
+#include "game_logic.cpp"
+/*#include "Research_tree.cpp"
 #include "space_ship_constructor.cpp"
 #include "Planet.cpp"
-#include "map.cpp"
-#include "Interface.cpp"
-#include "game_logic.cpp"*/
+#include "map.cpp"*/
 
 bool game_res_init()
 {
@@ -41,10 +41,10 @@ bool game_res_init()
     action_points = 5;
 
     /*if(!ship.init())
-        return false;
+        return false;*/
 
     if(!MENU.init())
-        return false;*/
+        return false;
 
     LOG.add_message("Game start! Your's turn...", WHITE, 0);
     if(!LOG.log_scroller.setImage("../img/Scroller-icon.png", true))
@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
                     }
                     FULLSCREEN ^= true;
                     break;
-                /*case SDLK_SPACE:
+                case SDLK_SPACE:
                     if(MENU.isMainMenu())
                         action_handler(GAME_NEW_TURN);
                     break;
@@ -206,7 +206,7 @@ int main(int argc, char* argv[])
                 case SDLK_KP_MINUS:
                     MENU.top_scroller.setPosition(-0.099, true);
                     MENU.updTopMenu();
-                    break;*/
+                    break;
                 default:
                     printf("Physical %s key acting as %s key\n",
                         SDL_GetScancodeName(e.key.keysym.scancode),
@@ -214,12 +214,12 @@ int main(int argc, char* argv[])
                 }
             }
 
-            /*else if( e.type == SDL_MOUSEBUTTONDOWN )
+            else if( e.type == SDL_MOUSEBUTTONDOWN )
             {
                 int x, y;
                 SDL_GetMouseState( &x, &y );
 
-                if(MENU.isShipyard())
+                /*if(MENU.isShipyard())
                 {
                     if(e.button.button == SDL_BUTTON_RIGHT)
                     {
@@ -233,10 +233,10 @@ int main(int argc, char* argv[])
                         if(!log_tab.detectEvent(x, y))
                             ship.handleClick(x, y);
                     }
-                }
+                }*/
                 MENU.handleClick(x, y);
                 LOG.handleClick(x, y);
-            }*/
+            }
 
             /*else if( e.type == SDL_MOUSEWHEEL )
             {
@@ -290,9 +290,9 @@ int main(int argc, char* argv[])
             }*/
         }
 
-        //MENU.render();
+        MENU.render();
         LOG.render();
-        //MENU.render_cursor();
+        MENU.render_cursor();
         //==============SDL_SetRenderDrawColor( renderer, 0, 150, 0, 255 ); //background color
 
         SDL_RenderPresent(renderer);

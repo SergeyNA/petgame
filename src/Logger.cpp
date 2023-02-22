@@ -52,7 +52,7 @@ public:
         delete[] log_messages;
     };
 
-    /*void handleClick(int x, int y)
+    void handleClick(int x, int y)
     {
         if(!MENU.isLogDisabled() && !(x < LOG_width - 10 || x > LOG_width || y <= SCREEN_HEIGHT - LOG_height) )
         {
@@ -80,7 +80,7 @@ public:
                 log_scroller.setPos(LOG_width - 15, log_scroll_button_posY - 10 - SCREEN_HEIGHT + LOG_height);
             }
         }
-    }*/
+    }
 
     void add_message(std::string text, font_colors c, int font_index)
     {
@@ -97,11 +97,9 @@ public:
 
     void render()
     {
-        //if(log_animation || !MENU.isLogDisabled())
-        if(log_animation || true)
+        if(log_animation || !MENU.isLogDisabled())
         {
-            //if(MENU.isLogDisabled())
-            if(false)
+            if(MENU.isLogDisabled())
             {
                 log_viewport.y += LOG_ANIMATION_SPEED;
                 if(log_viewport.y >= SCREEN_HEIGHT)
