@@ -183,6 +183,23 @@ struct space_ship_constructor
                     x_offset + cellSize[ci] * dimX, y_offset + i * cellSize[ci]);
             SDL_RenderDrawLine( renderer, x_offset + dimX * cellSize[ci], y_offset,
                     x_offset + dimX * cellSize[ci], y_offset + cellSize[ci] * dimY );
+
+            int cursor_x, cursor_y;
+            SDL_GetMouseState( &cursor_x, &cursor_y );
+            if( cursor_x > x_offset && cursor_y > y_offset && cursor_y < y_offset + cellSize[ci] * dimY && cursor_x < x_offset + cellSize[ci] * dimX )
+            {
+                int cell_x = (cursor_x - x_offset) / cellSize[ci];
+                int cell_y = (cursor_y - y_offset) / cellSize[ci];
+
+                SDL_SetRenderDrawColor( renderer, 200, 200, 0, 255 );
+                SDL_Rect yellowRect = { x_offset + cell_x * cellSize[ci], y_offset + cell_y * cellSize[ci], cellSize[ci], cellSize[ci] };
+                SDL_RenderDrawRect( renderer, &yellowRect);
+                yellowRect.h -= 2;
+                yellowRect.w -= 2;
+                yellowRect.x += 1;
+                yellowRect.y += 1;
+                SDL_RenderDrawRect( renderer, &yellowRect);
+            }
         }
 
         if(ship_list_opened || ship_list_animation)
