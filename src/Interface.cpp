@@ -145,9 +145,9 @@ public:
         top_scroller.init(SCREEN_WIDTH / 4 + 75, 20, SCREEN_WIDTH * 3 / 4 - 75, 40, "foo.png", 181, 149, 213);
         tree_scroller.init(SCREEN_WIDTH / 3 - 20, 80, SCREEN_WIDTH / 3, SCREEN_HEIGHT, "Scroller-icon.png", 181, 149, 213);
         tree_scroller.setPosition(0);
-        /*ship.ship_list_scroller.init(SCREEN_WIDTH * 3 / 4 - 13, SCREEN_HEIGHT - 70 - ship_load_list_height + 6 + 8, SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT - 70 - ship_load_list_height + 6 + 20 * ship_load_list_members, "vertical_tight_scroller_icon.png", 255, 228, 181);
+        ship.ship_list_scroller.init(SCREEN_WIDTH * 3 / 4 - 13, SCREEN_HEIGHT - 70 - ship_load_list_height + 6 + 8, SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT - 70 - ship_load_list_height + 6 + 20 * ship_load_list_members, "vertical_tight_scroller_icon.png", 255, 228, 181);
         ship.ship_list_scroller.off();
-        ship.ship_list_scroller.setPosition(0);*/
+        ship.ship_list_scroller.setPosition(0);
 
         if(!res_per_round.loadFromRenderedText(toString(static_cast<int>(floor(people * top_scroller.getVal() + .5))), GRAY, 0))
             return false;
@@ -304,7 +304,7 @@ public:
                     }
                 }
 
-            /*if(shipyard.isOn())
+            if(shipyard.isOn())
                 if(shipyard.detectEvent(x, y))
                 {
                     shipyard_open = true;
@@ -317,7 +317,7 @@ public:
                     research.offButton();
                     action_handler(HULL_CREATION);
                 }
-            if(explore.isOn())
+            /*if(explore.isOn())
             {
                 if(explore.detectEvent(x, y))
                 {
@@ -371,10 +371,10 @@ public:
             if(logger_off)
             {
                 log_tab.setImage("button1.png", true);
-                /*if(ship.ship_list_opened)
+                if(ship.ship_list_opened)
                     construction_mode = LOADING_SHIP;
                 else
-                    construction_mode = OVERVIEW_MODE;*/
+                    construction_mode = OVERVIEW_MODE;
             }
             else
             {
@@ -469,14 +469,14 @@ public:
 
     void render()
     {
-        //if(!shipyard_open)
+        if(!shipyard_open)
             background.render(1.5);
-        /*else
+        else
         {
             ship.render();
         }
 
-        if(map_open)
+        /*if(map_open)
         {
             field.render();
             close_map.render();

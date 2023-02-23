@@ -15,16 +15,17 @@
 //#include "Tips.cpp"
 #include "Scroller.cpp"
 #include "Research_tree.cpp"
+#include "Fleet.cpp"
+#include "space_ship_constructor.cpp"
 #include "Interface.cpp"
 #include "Logger.cpp"
-#include "Fleet.cpp"
 #include "game_logic.cpp"
-/*#include "space_ship_constructor.cpp"
-#include "Planet.cpp"
+/*#include "Planet.cpp"
 #include "map.cpp"*/
 
 bool game_res_init()
 {
+    //======don't forget to delete new font in Close_SDL()====
     if(!loadFont("courier", 20, 0))
         return false;
     if(!loadFont("block", 20, 1))
@@ -33,6 +34,7 @@ bool game_res_init()
         return false;
     if(!loadFont("courier", 16, 3))
         return false;
+    //======don't forget to delete new font in Close_SDL()====
 
     resourses = 5000;
     science_points = 100000;
@@ -40,8 +42,8 @@ bool game_res_init()
     action_limits = 5;
     action_points = 5;
 
-    /*if(!ship.init())
-        return false;*/
+    if(!ship.init())
+        return false;
 
     if(!MENU.init())
         return false;
@@ -118,10 +120,10 @@ bool game_res_init()
 
     technologies[35].setChildren(new int[1]{36}, 1);
 
-    //technologies[0].print();
-
     technologies[26].setRequirements(new std::pair<int, int>[1]{std::make_pair(25, 3)}, 1);
     technologies[38].setRequirements(new std::pair<int, int>[2]{std::make_pair(37, 1), std::make_pair(9, 1)}, 2);
+
+    //technologies[0].print();
 
     return true;
 }
@@ -153,21 +155,21 @@ int main(int argc, char* argv[])
                 case SDLK_m:
                     LOG.add_message("Some event " + toString(LOG.getMessageCount()), static_cast<font_colors>(rand()%5), 0);
                     break;
-                /*case SDLK_r:
+                case SDLK_r:
                     if(MENU.isShipyard())
                     {
                         ship.x_offset = 0;
                         ship.y_offset = 80;
                         ship.ci = 3;
                     }
-                    break;*/
+                    break;
                 //===========case SDLK_s:
                 //    if(MENU.isShipyard())
                 //    {
                 //        ship.save_ship(25, 54);
                 //    }
                 //===========    break;
-                /*case SDLK_e:
+                case SDLK_e:
                     if( MENU.isShipyard() )
                     {
                         MENU.closeShipyard();
@@ -179,7 +181,7 @@ int main(int argc, char* argv[])
                 case SDLK_v:
                     if( MENU.isShipyard() )
                         ship.visible_grid ^= true;
-                    break;*/
+                    break;
                 case SDLK_f:
                     if(FULLSCREEN)
                     {
@@ -219,7 +221,7 @@ int main(int argc, char* argv[])
                 int x, y;
                 SDL_GetMouseState( &x, &y );
 
-                /*if(MENU.isShipyard())
+                if(MENU.isShipyard())
                 {
                     if(e.button.button == SDL_BUTTON_RIGHT)
                     {
@@ -233,12 +235,12 @@ int main(int argc, char* argv[])
                         if(!log_tab.detectEvent(x, y))
                             ship.handleClick(x, y);
                     }
-                }*/
+                }
                 MENU.handleClick(x, y);
                 LOG.handleClick(x, y);
             }
 
-            /*else if( e.type == SDL_MOUSEWHEEL )
+            else if( e.type == SDL_MOUSEWHEEL )
             {
                 int x, y;
                 SDL_GetMouseState( &x, &y );
@@ -287,7 +289,7 @@ int main(int argc, char* argv[])
                     SDL_GetMouseState( &x, &y );
                     ship.moving_ship(x, y);
                 }
-            }*/
+            }
         }
 
         MENU.render();

@@ -36,7 +36,7 @@ void action_handler(game_event e)
         MENU.updTopMenu();
         break;
 
-    /*case BUILD_SHIP:
+    case BUILD_SHIP:
         fleets[0].addShip(ship.ship_power);
         resourses -= ship.ship_cost_res;
         people -= ship.ship_cost_staff;
@@ -45,7 +45,7 @@ void action_handler(game_event e)
         MENU.updActionCounter();
         break;
 
-    case EXPLORATION:
+    /*case EXPLORATION:
         if(action_points > 0)
         {
             action_points--;
@@ -54,13 +54,13 @@ void action_handler(game_event e)
             MENU.updActionCounter();
             LOG.add_message(logMessage, BLUE, 0);
         }
-        break;
+        break;*/
 
     case HULL_CREATION:
         ship.load_ship();
         ship.open_ship_list.onButton();
         ship.build_spaceship.onButton();
-        break;*/
+        break;
 
     case DO_RESEARCH:
         if(technologies[research_index].isResearchable())
@@ -70,7 +70,7 @@ void action_handler(game_event e)
             if(technologies[38].research_progress == 0)
                 action_points -= 1;
             technologies[research_index].upgrade();
-            //openTechnology(research_index);
+            openTechnology(research_index);
             MENU.updTopMenu();
             MENU.updActionCounter();
         }
@@ -80,7 +80,7 @@ void action_handler(game_event e)
     }
 }
 
-/*void openTechnology(int index)
+void openTechnology(int index)
 {
     switch(index)
     {
@@ -116,4 +116,4 @@ void action_handler(game_event e)
             ship.ship_names.push_back("Human_2");
         break;
     }
-}*/
+}
