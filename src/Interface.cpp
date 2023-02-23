@@ -387,7 +387,7 @@ public:
         if(top_scroller.isMoving())
             updTopMenu();
 
-        /*if(research_open)
+        if(research_open)
         {
             if(x <= SCREEN_WIDTH / 3)
             {
@@ -431,7 +431,7 @@ public:
                             technologies[i].opened = true;
                 }
             }
-        }*/
+        }
     }
 
     bool isMainMenu()
@@ -530,7 +530,7 @@ public:
 
         top_scroller.render();
 
-        /*if(research_open)
+        if(research_open)
         {
             y_offset = 0;
             global_shift = 8;
@@ -549,11 +549,11 @@ public:
             SDL_RenderSetViewport( renderer, nullptr );
 
             tree_scroller.render();
-        }*/
+        }
 
         SDL_GetMouseState( &mouseX, &mouseY );
 
-        /*if(research_open && mouseX < SCREEN_WIDTH / 3 - 20)
+        if(research_open && mouseX < SCREEN_WIDTH / 3 - 20)
         {
             for(int i = 1; i < tree_render_pos_index; i++)
             {
@@ -633,7 +633,7 @@ public:
                     break;
                 }
             }
-        }*/
+        }
 
         //if mode == something && tips exist -> render tips if mouse here; tips #0 and #1 actual for any mode
         /*tips[0].render(mouseX, mouseY);

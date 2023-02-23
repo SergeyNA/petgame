@@ -8,7 +8,7 @@ void action_handler(game_event e)
         for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
             it->newTurn();
 
-        people = static_cast<int>(people * 1.1);
+        people = static_cast<int>(people * 1.1); //set zero instead of
         //field.newTurn();
 
         resourses += static_cast<int>(floor(people * MENU.top_scroller.getVal()) + .5);
@@ -60,7 +60,7 @@ void action_handler(game_event e)
         ship.load_ship();
         ship.open_ship_list.onButton();
         ship.build_spaceship.onButton();
-        break;
+        break;*/
 
     case DO_RESEARCH:
         if(technologies[research_index].isResearchable())
@@ -70,12 +70,12 @@ void action_handler(game_event e)
             if(technologies[38].research_progress == 0)
                 action_points -= 1;
             technologies[research_index].upgrade();
-            openTechnology(research_index);
+            //openTechnology(research_index);
             MENU.updTopMenu();
             MENU.updActionCounter();
         }
         research_index = -1;
-        break;*/
+        break;
 
     }
 }

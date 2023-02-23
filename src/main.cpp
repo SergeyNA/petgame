@@ -14,12 +14,12 @@
 #include "SDL_func.cpp"
 //#include "Tips.cpp"
 #include "Scroller.cpp"
+#include "Research_tree.cpp"
 #include "Interface.cpp"
 #include "Logger.cpp"
 #include "Fleet.cpp"
 #include "game_logic.cpp"
-/*#include "Research_tree.cpp"
-#include "space_ship_constructor.cpp"
+/*#include "space_ship_constructor.cpp"
 #include "Planet.cpp"
 #include "map.cpp"*/
 
@@ -51,12 +51,12 @@ bool game_res_init()
         return false;
     LOG.log_scroller.setPos( SCREEN_WIDTH * 3 / 4 - 15, SCREEN_HEIGHT / 2 - 10 );
 
-    /*close_branch.loadFromFile("research_trig_close.png", true);
-    open_branch.loadFromFile("research_trig_open.png", true);*/
+    close_branch.loadFromFile("research_trig_close.png", true);
+    open_branch.loadFromFile("research_trig_open.png", true);
 
     fleets.push_back(Fleet(9, 3));
 
-    /*technologies[0].init("ROOT", 0, 0, 0, new int[1]{0});
+    technologies[0].init("ROOT", 0, 0, 0, new int[1]{0});
     technologies[0].setChildren(new int[5]{1, 2, 3, 4, 5}, 5);
     technologies[0].opened = true;
 
@@ -121,7 +121,7 @@ bool game_res_init()
     //technologies[0].print();
 
     technologies[26].setRequirements(new std::pair<int, int>[1]{std::make_pair(25, 3)}, 1);
-    technologies[38].setRequirements(new std::pair<int, int>[2]{std::make_pair(37, 1), std::make_pair(9, 1)}, 2);*/
+    technologies[38].setRequirements(new std::pair<int, int>[2]{std::make_pair(37, 1), std::make_pair(9, 1)}, 2);
 
     return true;
 }
