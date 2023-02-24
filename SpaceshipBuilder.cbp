@@ -37,6 +37,10 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="src/Planet.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/Research_tree.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -49,11 +53,19 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="src/Tips.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/game_logic.cpp">
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/map.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/resources_controller.h" />
 		<Unit filename="src/space_ship_constructor.cpp">
 			<Option compile="0" />

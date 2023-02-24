@@ -16,12 +16,12 @@
 #include "Scroller.cpp"
 #include "Research_tree.cpp"
 #include "Fleet.cpp"
-#include "space_ship_constructor.cpp"
+#include "Space_ship_constructor.cpp"
 #include "Planet.cpp"
-#include "map.cpp"
+#include "Map.cpp"
 #include "Interface.cpp"
 #include "Logger.cpp"
-#include "game_logic.cpp"
+#include "Game_logic.cpp"
 
 bool game_res_init()
 {

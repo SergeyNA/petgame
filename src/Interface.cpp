@@ -23,6 +23,9 @@ Button change_tree;
 Button close_map;
 Button explore_sector;
 
+//shipyard
+Button back_from_yard_to_main_menu;
+
 class Interface {
 
 private:
@@ -98,6 +101,11 @@ public:
             return false;
         close_map.setPos( SCREEN_WIDTH - 200, SCREEN_HEIGHT - 170 );
         close_map.offButton();
+
+        if(!back_from_yard_to_main_menu.setImage("back_button.png", true))
+            return false;
+        back_from_yard_to_main_menu.setPos( 20, SCREEN_HEIGHT - 100 );
+        back_from_yard_to_main_menu.offButton();
 
         if(!explore_sector.setImage("explore_sector.png", true))
             return false;
@@ -309,6 +317,7 @@ public:
                 {
                     shipyard_open = true;
                     main_menu = false;
+                    back_from_yard_to_main_menu.onButton();
                     new_turn.offButton();
                     attack.offButton();
                     colonize.offButton();
@@ -317,6 +326,11 @@ public:
                     research.offButton();
                     action_handler(HULL_CREATION);
                 }
+            if(back_from_yard_to_main_menu.detectEvent(x, y))
+            {
+                closeShipyard();
+                ship.clear_();
+            }
             if(explore.isOn())
             {
                 if(explore.detectEvent(x, y))
@@ -448,6 +462,7 @@ public:
     {
         shipyard_open = false;
         main_menu = true;
+        back_from_yard_to_main_menu.offButton();
         new_turn.onButton();
         attack.onButton();
         colonize.onButton();
@@ -491,6 +506,8 @@ public:
         explore.render();
         shipyard.render();
         colonize.render();
+
+        back_from_yard_to_main_menu.render();
 
         if(colonize.isOn())
         {

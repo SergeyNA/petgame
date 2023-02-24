@@ -38,6 +38,7 @@ void action_handler(game_event e)
         break;
 
     case BUILD_SHIP:
+        LOG.add_message("Build the new ship for " + toString(ship.ship_cost_res) + " resourses", GRAY, 0);
         fleets[0].addShip(ship.ship_power);
         resourses -= ship.ship_cost_res;
         people -= ship.ship_cost_staff;
