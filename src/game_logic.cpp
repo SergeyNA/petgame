@@ -8,8 +8,9 @@ void action_handler(game_event e)
         for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
             it->newTurn();
 
-        people = static_cast<int>(people * 1.1); //set zero instead of
-        //field.newTurn();
+        //people = static_cast<int>(people * 1.1); //set zero instead of
+        people = 0;
+        field.newTurn();
 
         resourses += static_cast<int>(floor(people * MENU.top_scroller.getVal()) + .5);
         science_points += static_cast<int>(people -  floor(people * MENU.top_scroller.getVal()) + .5);
@@ -45,7 +46,7 @@ void action_handler(game_event e)
         MENU.updActionCounter();
         break;
 
-    /*case EXPLORATION:
+    case EXPLORATION:
         if(action_points > 0)
         {
             action_points--;
@@ -54,7 +55,7 @@ void action_handler(game_event e)
             MENU.updActionCounter();
             LOG.add_message(logMessage, BLUE, 0);
         }
-        break;*/
+        break;
 
     case HULL_CREATION:
         ship.load_ship();

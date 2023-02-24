@@ -199,8 +199,8 @@ public:
         if(SDL_ShowCursor(SDL_DISABLE) < 0)
             return false;
 
-        /*if(!field.init())
-            return false;*/
+        if(!field.init())
+            return false;
 
         return true;
     }
@@ -272,8 +272,8 @@ public:
                     research_open ^= true;
                     if(research_open)
                     {
+                        //GAME_RESEARCH_OPEN
                         main_menu = false;
-                        //action_handler(GAME_RESEARCH_OPEN);
                         research.setImage("research_close.png", true);
                         setBackground(DEFAULT_BACKGROUND_3);
                         setFilterBackground(BACKGROUND_FILTER_3, 100);
@@ -289,8 +289,8 @@ public:
                     }
                     else
                     {
+                        //GAME_RESEARCH_CLOSE
                         main_menu = true;
-                        //action_handler(GAME_RESEARCH_CLOSE);
                         research.setImage("research_button.png", true);
                         setBackground(DEFAULT_BACKGROUND);
                         setFilterBackground(BACKGROUND_FILTER_1, 127);
@@ -317,7 +317,7 @@ public:
                     research.offButton();
                     action_handler(HULL_CREATION);
                 }
-            /*if(explore.isOn())
+            if(explore.isOn())
             {
                 if(explore.detectEvent(x, y))
                 {
@@ -362,7 +362,7 @@ public:
                     else
                         explore_sector.offButton();
                 }
-            }*/
+            }
         }
 
         if( log_tab.detectEvent(x, y) )
@@ -476,12 +476,12 @@ public:
             ship.render();
         }
 
-        /*if(map_open)
+        if(map_open)
         {
             field.render();
             close_map.render();
             explore_sector.render();
-        }*/
+        }
 
         research.render();
         change_tree.render();

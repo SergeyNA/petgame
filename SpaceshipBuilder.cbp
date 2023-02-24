@@ -25,12 +25,40 @@
 		<Linker>
 			<Add option="-lSDL2 -lSDL2_image -lSDL2_ttf" />
 		</Linker>
+		<Unit filename="src/Fleet.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/Interface.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/Logger.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/Research_tree.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/SDL_func.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/Scroller.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/game_logic.cpp">
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/resources_controller.h" />
+		<Unit filename="src/space_ship_constructor.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
