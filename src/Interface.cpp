@@ -58,7 +58,7 @@ private:
 
     bool tree_button_state = true;
 
-    //Tips tips[10];
+    Tips tips[10];
 
 public:
 
@@ -152,11 +152,11 @@ public:
         if(!res_per_round.loadFromRenderedText(toString(static_cast<int>(floor(people * top_scroller.getVal() + .5))), GRAY, 0))
             return false;
         res_per_round.setRenderPos(SCREEN_WIDTH / 4 - 40 + 75, 22);
-        //tips[0].init("The amount of resources receiving at the turn's end", &res_per_round, 280);
+        tips[0].init("The amount of resources receiving at the turn's end", &res_per_round, 280);
         if(!science_per_round.loadFromRenderedText(toString(static_cast<int>(floor(people * (1 - top_scroller.getVal()) + .5))), BLUE, 0))
             return false;
         science_per_round.setRenderPos(SCREEN_WIDTH * 3 / 4 + 25 - 75, 22);
-        /*tips[1].init("The amount of tech points receiving at the turn's end", &science_per_round, 280);
+        tips[1].init("The amount of tech points receiving at the turn's end", &science_per_round, 280);
         tips[2].init("1'st: total amount of required resources 2'nd: reduction in your population after build 3'rd: required actions", &ship.ship_cost_title, 235);
         tips[3].init("Not enough resources for construction the scpaceship", ship.build_spaceship.getTexture(), 280);
         tips[4].init("Can't find a crew. Increase the population of your empire", ship.build_spaceship.getTexture(), 300);
@@ -164,7 +164,7 @@ public:
         tips[6].init("Known space objects with possible self-existence", &field.planets_title, 195);
         tips[7].init("The complexity of discovering new space objects and their concentration in this area", &field.properties_title, 300);
         tips[8].init("Strange signals/places or other undefined things", &field.objects_titile, 255);
-        tips[9].init("Please restore actions on any positive value", explore_sector.getTexture(), 230);*/
+        tips[9].init("Please restore actions on any positive value", explore_sector.getTexture(), 230);
 
         if(!research_points.loadFromRenderedText("Tech potential:" + toString(science_points), BLUE, 0))
             return false;
@@ -636,7 +636,7 @@ public:
         }
 
         //if mode == something && tips exist -> render tips if mouse here; tips #0 and #1 actual for any mode
-        /*tips[0].render(mouseX, mouseY);
+        tips[0].render(mouseX, mouseY);
         tips[1].render(mouseX, mouseY);
         if(shipyard_open && construction_mode == OVERVIEW_MODE)
         {
@@ -655,7 +655,7 @@ public:
             tips[8].render(mouseX, mouseY);
             if(action_points <= 0)
                 tips[9].render(mouseX, mouseY);
-        }*/
+        }
     }
 
     void render_cursor()

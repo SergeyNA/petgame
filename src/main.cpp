@@ -12,7 +12,7 @@
 #include "resources_controller.h"
 
 #include "SDL_func.cpp"
-//#include "Tips.cpp"
+#include "Tips.cpp"
 #include "Scroller.cpp"
 #include "Research_tree.cpp"
 #include "Fleet.cpp"
@@ -25,7 +25,6 @@
 
 bool game_res_init()
 {
-    //======don't forget to delete new font in Close_SDL()====
     if(!loadFont("courier", 20, 0))
         return false;
     if(!loadFont("block", 20, 1))
@@ -34,7 +33,7 @@ bool game_res_init()
         return false;
     if(!loadFont("courier", 16, 3))
         return false;
-    //======don't forget to delete new font in Close_SDL()====
+    //don't forget to delete new font in Close_SDL()
 
     resourses = 5000;
     science_points = 100000;
@@ -261,7 +260,6 @@ int main(int argc, char* argv[])
                 if(e.type == SDL_MOUSEBUTTONUP)
                 {
                     scroll_move = false;
-                    //==========MENU.scroller2.setMoveFalse();
                     MENU.tree_scroller.setMoveFalse();
                     MENU.top_scroller.setMoveFalse();
                     ship.ship_list_scroller.setMoveFalse();
@@ -273,7 +271,6 @@ int main(int argc, char* argv[])
                     MENU.top_scroller.clickHandler2(x, y);
                     MENU.tree_scroller.clickHandler2(x, y);
                     ship.ship_list_scroller.clickHandler2(x, y);
-                    //=============MENU.scroller2.clickHandler2(x, y);
                 }
             }
 
@@ -295,7 +292,7 @@ int main(int argc, char* argv[])
         MENU.render();
         LOG.render();
         MENU.render_cursor();
-        //==============SDL_SetRenderDrawColor( renderer, 0, 150, 0, 255 ); //background color
+        //SDL_SetRenderDrawColor( renderer, 0, 150, 0, 255 ); //background color
 
         SDL_RenderPresent(renderer);
     }

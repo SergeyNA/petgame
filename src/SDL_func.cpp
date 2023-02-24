@@ -63,7 +63,6 @@ inline std::string toString(int num)
     return string_buffer.str();
 }
 
-//======don't forget to delete new font in Close_SDL()====
 bool loadFont(std::string font_name, int f_size, int index)
 {
     if(gFont[index] != nullptr)
