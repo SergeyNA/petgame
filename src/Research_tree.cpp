@@ -56,7 +56,9 @@ public:
     bool isResearchable()
     {
         if(research_progress < max_progress && science_points >= cost[research_progress])
+        {
             return true; //TODO add requirement conditions
+        }
         return false;
     }
     int getCost()

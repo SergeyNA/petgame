@@ -67,11 +67,18 @@ void action_handler(game_event e)
     case DO_RESEARCH:
         if(technologies[research_index].isResearchable())
         {
+            if(technologies[38].research_progress == 0 && action_points > 0)
+                action_points -= 1;
+            else if(technologies[38].research_progress == 0)
+            {
+                logMessage = "Not enough actions for research \"" + technologies[research_index].name + "\"";
+                LOG.add_message(logMessage, BLUE, 0);
+                research_index = -1;
+                break;
+            }
+            technologies[research_index].upgrade();
             LOG.add_message("You spend " + toString(technologies[research_index].getCost()) + " tech on \"" +
                     technologies[research_index].name + "\" lvl: " + toString(technologies[research_index].research_progress), BLUE, 0);
-            if(technologies[38].research_progress == 0)
-                action_points -= 1;
-            technologies[research_index].upgrade();
             openTechnology(research_index);
             MENU.updTopMenu();
             MENU.updActionCounter();
@@ -89,7 +96,7 @@ void openTechnology(int index)
     case 7:
         if(technologies[7].research_progress == 1)
         {
-            ship.ship_names.push_back("Human_3");
+            //ship.ship_names.push_back("Human_3");
             ship.ship_names.push_back("Human_4");
         }
         break;
@@ -113,9 +120,9 @@ void openTechnology(int index)
             ship.ship_names.push_back("Human_10");
         }
         break;
-    case 24:
+    /*case 24:
         if(technologies[24].research_progress == 1)
             ship.ship_names.push_back("Human_2");
-        break;
+        break;*/
     }
 }

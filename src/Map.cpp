@@ -283,6 +283,7 @@ private:
     WrapTexture map_icon_humans;
     WrapTexture map_icon_player;
     WrapTexture map_icon_pirate;
+    WrapTexture fleet_icon_player;
 
     //quadrant descr
     WrapTexture quadrant_coordinates;
@@ -352,6 +353,8 @@ public:
         if(!map_icon_player.loadFromFile("map_player_emblem.png", true))
             return false;
         if(!map_icon_pirate.loadFromFile("empire_emblem_pirates_2.png", true))
+            return false;
+        if(!fleet_icon_player.loadFromFile("fleet_icon1.png", true))
             return false;
         star_sector.setRenderPos(20, 122);
         focus.first = -1;
@@ -492,16 +495,23 @@ public:
             SDL_RenderDrawLine( renderer, 20, 121 + 40 * i, 20 + 640, 121 + 40 * i);
         }
 
+        //draw sector owner icons on the map
         for(int i = 0; i < 16; i++)
             for(int j = 0; j < 10; j++)
                 render_icon(&sectors[i][j]);
 
+        //draw fleet icons on the map
         SDL_SetRenderDrawColor( renderer, 200, 200, 0, 255 );
         for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
         {
-            draw_color_sector_edge(std::make_pair(it->getX(), it->getY()));
+            //draw_color_sector_edge(std::make_pair(it->getX(), it->getY())); //draw bold sector edges by RenderDrawColor
+            if(!sectors[it->getX()][it->getY()].isShadow())
+            {
+                fleet_icon_player.render(20 + it->getX() * 40, 122 + it->getY() * 40, 0.4);
+            }
         }
 
+        //additional draw for selected sector
         if(focus.first != -1)
         {
             SDL_SetRenderDrawColor( renderer, 0, 0, 150, 255 );

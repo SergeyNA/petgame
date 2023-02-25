@@ -56,6 +56,11 @@ bool game_res_init()
     open_branch.loadFromFile("research_trig_open.png", true);
 
     fleets.push_back(Fleet(9, 3));
+    fleets[0].addShip(120);
+    fleets.push_back(Fleet(10, 3));
+    fleets[1].addShip(250);
+    fleets.push_back(Fleet(10, 2));
+    fleets[2].addShip(20);
 
     technologies[0].init("ROOT", 0, 0, 0, new int[1]{0});
     technologies[0].setChildren(new int[5]{1, 2, 3, 4, 5}, 5);

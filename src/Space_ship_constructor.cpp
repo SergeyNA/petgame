@@ -11,7 +11,7 @@ struct space_ship_constructor
     int x_offset_old;
     int y_offset_old;
 
-    std::vector<std::string> ship_names = {"Human_1"};
+    std::vector<std::string> ship_names = {"Human_1", "Human_2", "Human_3"};
 
     int ship_save_index = 9;
     // 51 main (uncomment, dim); 14 (add hull name); 16 (name index); 64 game logic (add params); 45, 46, 47 (dim); create *.png
