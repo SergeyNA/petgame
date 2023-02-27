@@ -1,6 +1,7 @@
 char sector_index_v[16] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'};
 char sector_index_h[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 enum class own {NONE, PLAYER, HUMANITY, PIRATES, ALIENS1, ALIENS2, REBELS};
+enum class fleetDestination {STAND, LEFTWARD, RIGHTWARD, UPWARD, DOWNWARD};
 
 std::string getOwnerRecord(own owner)
 {
@@ -284,6 +285,7 @@ private:
     WrapTexture map_icon_player;
     WrapTexture map_icon_pirate;
     WrapTexture fleet_icon_player;
+    WrapTexture fleet_icon_player2;
 
     //quadrant descr
     WrapTexture quadrant_coordinates;
@@ -292,6 +294,10 @@ private:
     WrapTexture properties;
 
     WrapTexture arrow;
+    WrapTexture selected_arrow;
+
+    bool paint_arrow = false;
+    fleetDestination fleetDir = fleetDestination::STAND;
 
     Sector getSector(int x, int y)
     {
@@ -346,6 +352,8 @@ public:
             return false;
         if(!arrow.loadFromFile("arrow_up.png", true))
             return false;
+        if(!selected_arrow.loadFromFile("selected_arrow_up.png", true))
+            return false;
         if(!map_icon_humans.loadFromFile("map_humanity.png", true))
             return false;
         if(!map_icon_unknow.loadFromFile("map_icon_q.png", true))
@@ -355,6 +363,8 @@ public:
         if(!map_icon_pirate.loadFromFile("empire_emblem_pirates_2.png", true))
             return false;
         if(!fleet_icon_player.loadFromFile("fleet_icon1.png", true))
+            return false;
+        if(!fleet_icon_player2.loadFromFile("fleet_icon2.png", true))
             return false;
         star_sector.setRenderPos(20, 122);
         focus.first = -1;
@@ -402,7 +412,7 @@ public:
 
         return true;
     }
-    bool detectEvent(int x, int y)
+    bool isClickOnStarsectorsMap(int x, int y)
     {
         if(x > 20 && x < 20 + 640 && y > 122 && y < 122 + 400)
             return true;
@@ -410,17 +420,59 @@ public:
     }
     void handleClick(int x, int y)
     {
-        if(detectEvent(x, y))
+        if(isClickOnStarsectorsMap(x, y))
         {
-            Sector temp_sector = getSector(x, y);
-            std::pair<int, int> temp_pair = temp_sector.getPos();
-            if(temp_pair != focus)
-                focus = temp_pair;
+            if(paint_arrow)
+            {
+                logMessage = "Your starfleet is moving from sector " + sectors[focus.first][focus.second].getStarCoordinate() + " to ";
+                std::vector<Fleet>::iterator it;
+                for(it = fleets.begin(); it != fleets.end(); it++)
+                {
+                    if(it->isHere(focus.first, focus.second)) {break;}
+                }
+                switch(fleetDir)
+                {
+                case fleetDestination::DOWNWARD:
+                    it->moveFleet(focus.first, focus.second+1, 1);
+                    logMessage += sectors[focus.first][focus.second].getStarCoordinate();
+                    break;
+                case fleetDestination::UPWARD:
+                    it->moveFleet(focus.first, focus.second-1, 1);
+                    logMessage += sectors[focus.first][focus.second].getStarCoordinate();
+                    break;
+                case fleetDestination::LEFTWARD:
+                    it->moveFleet(focus.first-1, focus.second, 1);
+                    logMessage += sectors[focus.first][focus.second].getStarCoordinate();
+                    break;
+                case fleetDestination::RIGHTWARD:
+                    it->moveFleet(focus.first+1, focus.second, 1);
+                    logMessage += sectors[focus.first+1][focus.second].getStarCoordinate();
+                    break;
+                case fleetDestination::STAND:
+                    break;
+                }
+                std::cout<<logMessage<<std::endl;
+            }
+
+            focus = getSector(x, y).getPos();
+
+            paint_arrow = false;
+            for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
+            {
+                if(it->isHere(focus.first, focus.second))
+                {
+                    if(it->canMoved())
+                    {
+                        paint_arrow = true;
+                        break;
+                    }
+                }
+            }
         }
     }
     bool isInvestigatable(int x, int y)
     {
-        if(detectEvent(x, y))
+        if(isClickOnStarsectorsMap(x, y))
         {
             bool can_continue = false;
             Sector temp_sector = getSector(x, y);
@@ -447,7 +499,7 @@ public:
         }
         return false;
     }
-    bool doInvestigate()
+    bool makeInvestigate()
     {
         if(action_points > 0)
         {
@@ -479,6 +531,25 @@ public:
             for(int j = 0; j < 10; j++)
                 sectors[i][j].newTurn();
     }
+    void drawFleetMoveVariant(int drawArrowX, int drawArrowY, double angle)
+    {
+        SDL_GetMouseState( &mouseX, &mouseY );
+        if(mouseX > drawArrowX && mouseX < drawArrowX + 40 && mouseY > drawArrowY && mouseY < drawArrowY + 40)
+        {
+            if(mouseX < 20 + focus.first * 40 || mouseX > 20 + (focus.first + 1) * 40 || mouseY < 122 + focus.second * 40 || mouseY > 122 + (focus.second + 1) * 40)
+            {
+                selected_arrow.render2(drawArrowX, drawArrowY, nullptr, angle);
+                if(mouseX < 20 + focus.first * 40) fleetDir = fleetDestination::LEFTWARD;
+                else if(mouseX > 20 + (focus.first + 1) * 40) fleetDir = fleetDestination::RIGHTWARD;
+                else if(mouseY < 122 + focus.second * 40) fleetDir = fleetDestination::UPWARD;
+                else if(mouseY > 122 + (focus.second + 1) * 40) fleetDir = fleetDestination::DOWNWARD;
+            }
+            else
+                arrow.render2(drawArrowX, drawArrowY, nullptr, angle);
+        }
+        else
+            arrow.render2(drawArrowX, drawArrowY, nullptr, angle);
+    }
     void render()
     {
         star_sector.render();
@@ -505,33 +576,22 @@ public:
         for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
         {
             //draw_color_sector_edge(std::make_pair(it->getX(), it->getY())); //draw bold sector edges by RenderDrawColor
-            if(!sectors[it->getX()][it->getY()].isShadow())
-            {
+            //if(!sectors[it->getX()][it->getY()].isShadow()) {fleet_icon_player.render(20 + it->getX() * 40, 122 + it->getY() * 40, 0.4);}
+            if(it->canMoved())
                 fleet_icon_player.render(20 + it->getX() * 40, 122 + it->getY() * 40, 0.4);
-            }
+            else
+                fleet_icon_player2.render(20 + it->getX() * 40, 122 + it->getY() * 40);
         }
 
         //additional draw for selected sector
         if(focus.first != -1)
         {
-            SDL_SetRenderDrawColor( renderer, 0, 0, 150, 255 );
+            SDL_SetRenderDrawColor( renderer, 200, 200, 0, 255 );
             draw_color_sector_edge(focus);
-
-            bool paint_arrow = false;
-            for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
-            {
-                if(it->isHere(focus.first, focus.second))
-                {
-                    if(it->canMoved())
-                    {
-                        paint_arrow = true;
-                        break;
-                    }
-                }
-            }
 
             if(paint_arrow)
             {
+                fleetDir = fleetDestination::STAND;
                 if(focus.second > 0)
                 {
                     /*if(sectors[focus.first][focus.second - 1].getOwnerIndex() != own::PLAYER)
@@ -539,34 +599,23 @@ public:
                         SDL_SetRenderDrawColor( renderer, 150, 0, 0, 255 );
                         draw_color_sector_edge(std::make_pair(focus.first, focus.second - 1));
                     }*/
-                    arrow.render(20 + focus.first * 40, 122 + focus.second * 40 - 30);
+                    //arrow.render(20 + focus.first * 40, 122 + focus.second * 40 - 30);
+                    drawFleetMoveVariant(20 + focus.first * 40, 122 + focus.second * 40 - 30, 0);
                 }
                 if(focus.first < 15)
                 {
-                    /*if(sectors[focus.first + 1][focus.second].getOwnerIndex() != own::PLAYER)
-                    {
-                        SDL_SetRenderDrawColor( renderer, 150, 0, 0, 255 );
-                        draw_color_sector_edge(std::make_pair(focus.first + 1, focus.second));
-                    }*/
-                    arrow.render2(20 + focus.first * 40 + 30, 122 + focus.second * 40, nullptr, 90);
+                    //arrow.render2(20 + focus.first * 40 + 30, 122 + focus.second * 40, nullptr, 90);
+                    drawFleetMoveVariant(20 + focus.first * 40 + 30, 122 + focus.second * 40, 90);
                 }
                 if(focus.second < 9)
                 {
-                    /*if(sectors[focus.first][focus.second + 1].getOwnerIndex() != own::PLAYER)
-                    {
-                        SDL_SetRenderDrawColor( renderer, 150, 0, 0, 255 );
-                        draw_color_sector_edge(std::make_pair(focus.first, focus.second + 1));
-                    }*/
-                    arrow.render2(20 + focus.first * 40, 122 + focus.second * 40 + 30, nullptr, 180);
+                    //arrow.render2(20 + focus.first * 40, 122 + focus.second * 40 + 30, nullptr, 180);
+                    drawFleetMoveVariant(20 + focus.first * 40, 122 + focus.second * 40 + 30, 180);
                 }
                 if(focus.first > 0)
                 {
-                    /*if(sectors[focus.first - 1][focus.second].getOwnerIndex() != own::PLAYER)
-                    {
-                        SDL_SetRenderDrawColor( renderer, 150, 0, 0, 255 );
-                        draw_color_sector_edge(std::make_pair(focus.first - 1, focus.second));
-                    }*/
-                    arrow.render2(20 + focus.first * 40 - 30, 122 + focus.second * 40, nullptr, 270);
+                    //arrow.render2(20 + focus.first * 40 - 30, 122 + focus.second * 40, nullptr, 270);
+                    drawFleetMoveVariant(20 + focus.first * 40 - 30, 122 + focus.second * 40, 270);
                 }
             }
         }
@@ -578,10 +627,10 @@ public:
         objects_titile.render();
 
         SDL_GetMouseState( &mouseX, &mouseY );
-        if(detectEvent(mouseX, mouseY) || focus.first != -1)
+        if(isClickOnStarsectorsMap(mouseX, mouseY) || focus.first != -1)
         {
             Sector current_sector;
-            if(detectEvent(mouseX, mouseY))
+            if(isClickOnStarsectorsMap(mouseX, mouseY))
                 current_sector = getSector(mouseX, mouseY);
             else
                 current_sector = sectors[focus.first][focus.second];

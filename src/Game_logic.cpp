@@ -51,7 +51,7 @@ void action_handler(game_event e)
         if(action_points > 0)
         {
             action_points--;
-            if(field.doInvestigate())
+            if(field.makeInvestigate())
                 explore_sector.offButton();
             MENU.updActionCounter();
             LOG.add_message(logMessage, BLUE, 0);

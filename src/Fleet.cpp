@@ -9,8 +9,17 @@ public:
     static int move_per_turn;
     void createFleet(int x, int y)
     {
-        posX = x;
-        posY = y;
+        if(x < 0 || x > 15 || y < 0 || y > 9)
+        {
+            std::cout << "Unasseptable fleet coordinates: " << x << " " << y << " set to (1; 1)" << std::endl;
+            posX = 1;
+            posY = 1;
+        }
+        else
+        {
+            posX = x;
+            posY = y;
+        }
         power = 0;
         move_count = move_per_turn;
     }
@@ -37,6 +46,11 @@ public:
         posX = x;
         posY = y;
     }
+    void moveFleet(int x, int y, int move_points = 1)
+    {
+        this->setDestination(x, y);
+        move_count -= move_points;
+    }
     void newTurn()
     {
         move_count = move_per_turn;
@@ -51,5 +65,5 @@ public:
     }
 };
 
-int Fleet::move_per_turn = 1;
+int Fleet::move_per_turn = 2;
 std::vector<Fleet> fleets;
