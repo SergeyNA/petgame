@@ -2,6 +2,10 @@ const int ship_load_list_height = SCREEN_HEIGHT - SCREEN_HEIGHT / 4 - 80;
 const int ship_load_list_width = 252;
 const int ship_load_list_members = (ship_load_list_height - 10 - 15 ) / 20;
 
+const std::string creating_hull_name = "Human_12";
+#define CREATING_HULL_WIDTH 30
+#define CREATING_HULL_HEIGHT 74
+
 struct space_ship_constructor
 {
     Uint8 *ship_hull = nullptr;
@@ -12,9 +16,6 @@ struct space_ship_constructor
     int y_offset_old;
 
     std::vector<std::string> ship_names = {"Human_1", "Human_2", "Human_3"};
-
-    int ship_save_index = 9;
-    // 51 main (uncomment, dim); 14 (add hull name); 16 (name index); 64 game logic (add params); 45, 46, 47 (dim); create *.png
 
     double scale[11] = {0.1, 0.2, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 8.0};
     int cellSize[11] = {1, 2, 5, 10, 15, 20, 25, 30, 40, 50, 80};
@@ -28,6 +29,10 @@ struct space_ship_constructor
     int moveStartY;
 
     bool visible_grid = true;
+
+    int fill_color = 0;
+    std::pair<int, int> hull_filling_begin;
+    std::pair<int, int> hull_filling_end;
 
     Button open_ship_list;
     bool ship_list_animation = false;
@@ -77,9 +82,9 @@ struct space_ship_constructor
 
         if(grid_creation_mode)
         {
-            ship_hull = new Uint8[25 * 54]();
-            dimX = 25;
-            dimY = 54;
+            ship_hull = new Uint8[100 * 100]();
+            dimX = 100;
+            dimY = 100;
             ship_name.loadFromRenderedText("New hull creation mode", WHITE, 3);
             ship_cost_res = 0;
             ship_cost_staff = 0;
@@ -93,7 +98,7 @@ struct space_ship_constructor
             if(!ships_data.is_open())
                 std::cout << "Coudn't load hull data: \"ships_data.txt\" not open" << std::endl;
 
-            std::string s = "bla bla";
+            std::string s;
             int temp;
 
             ship_name.loadFromRenderedText("New spaceship", WHITE, 3);
@@ -130,8 +135,16 @@ struct space_ship_constructor
             ships_data.close();
         }
 
-        ship_title.loadFromRenderedText("Hull type: " + ship_names[name_index], WHITE, 3);
-        ship_texture.loadFromFile("ships/" + ship_names[name_index] + ".png", true);
+        if(grid_creation_mode)
+        {
+            ship_title.loadFromRenderedText("Hull type: UNKNOWN HULL", WHITE, 3);
+            ship_texture.loadFromFile("ships/" + creating_hull_name + ".png", true);
+        }
+        else
+        {
+            ship_title.loadFromRenderedText("Hull type: " + ship_names[name_index], WHITE, 3);
+            ship_texture.loadFromFile("ships/" + ship_names[name_index] + ".png", true);
+        }
     }
 
     void clear_()
@@ -184,21 +197,49 @@ struct space_ship_constructor
             SDL_RenderDrawLine( renderer, x_offset + dimX * cellSize[ci], y_offset,
                     x_offset + dimX * cellSize[ci], y_offset + cellSize[ci] * dimY );
 
-            int cursor_x, cursor_y;
-            SDL_GetMouseState( &cursor_x, &cursor_y );
-            if( cursor_x > x_offset && cursor_y > y_offset && cursor_y < y_offset + cellSize[ci] * dimY && cursor_x < x_offset + cellSize[ci] * dimX )
+            SDL_GetMouseState( &mouseX, &mouseY );
+            if( mouseX > x_offset && mouseY > y_offset && mouseY < y_offset + cellSize[ci] * dimY && mouseX < x_offset + cellSize[ci] * dimX && construction_mode != LOG_OPEN )
             {
-                int cell_x = (cursor_x - x_offset) / cellSize[ci];
-                int cell_y = (cursor_y - y_offset) / cellSize[ci];
+                hull_filling_end.first = static_cast<int>( (mouseX - x_offset) / cellSize[ci]);
+                hull_filling_end.second = static_cast<int>( (mouseY - y_offset) / cellSize[ci]);
 
-                SDL_SetRenderDrawColor( renderer, 200, 200, 0, 255 );
-                SDL_Rect yellowRect = { x_offset + cell_x * cellSize[ci], y_offset + cell_y * cellSize[ci], cellSize[ci], cellSize[ci] };
-                SDL_RenderDrawRect( renderer, &yellowRect);
-                yellowRect.h -= 2;
-                yellowRect.w -= 2;
-                yellowRect.x += 1;
-                yellowRect.y += 1;
-                SDL_RenderDrawRect( renderer, &yellowRect);
+                SDL_Rect yellowRect = { x_offset + hull_filling_end.first * cellSize[ci], y_offset + hull_filling_end.second * cellSize[ci], cellSize[ci], cellSize[ci] };
+                if(fill_color != 0 && (hull_filling_end.first != hull_filling_begin.first || hull_filling_end.second != hull_filling_begin.second))
+                {
+                    yellowRect.x = x_offset + std::min(hull_filling_end.first, hull_filling_begin.first) * cellSize[ci];
+                    yellowRect.y = y_offset + std::min(hull_filling_end.second, hull_filling_begin.second) * cellSize[ci];
+                    yellowRect.w = cellSize[ci] * (1 + std::max(hull_filling_end.first, hull_filling_begin.first) - std::min(hull_filling_end.first, hull_filling_begin.first));
+                    yellowRect.h = cellSize[ci] * (1 + std::max(hull_filling_end.second, hull_filling_begin.second) - std::min(hull_filling_end.second, hull_filling_begin.second));
+
+                    switch(fill_color)
+                    {
+                        case 1:
+                            SDL_SetRenderDrawColor( renderer, 0, 150, 0, 150 );
+                            break;
+                        case 2:
+                            SDL_SetRenderDrawColor( renderer, 150, 0, 0, 150 );
+                            break;
+                        case 3:
+                            SDL_SetRenderDrawColor( renderer, 0, 0, 150, 150 );
+                            break;
+                        case 4:
+                            SDL_SetRenderDrawColor( renderer, 150, 150, 0, 150 );
+                            break;
+                        default:
+                            break;
+                    }
+                    SDL_RenderFillRect( renderer, &yellowRect);
+                }
+                else
+                {
+                    SDL_SetRenderDrawColor( renderer, 200, 200, 0, 255 );
+                    SDL_RenderDrawRect( renderer, &yellowRect);
+                    yellowRect.h -= 2;
+                    yellowRect.w -= 2;
+                    yellowRect.x += 1;
+                    yellowRect.y += 1;
+                    SDL_RenderDrawRect( renderer, &yellowRect);
+                }
             }
         }
 
@@ -294,6 +335,22 @@ struct space_ship_constructor
         open_ship_list.render(); // this is the button
     }
 
+    void fill_hull()
+    {
+        if(fill_color > 0 && visible_grid)
+        {
+            SDL_GetMouseState( &mouseX, &mouseY );
+            hull_filling_end.first = static_cast<int>( (mouseX - x_offset) / cellSize[ci]);
+            hull_filling_end.second = static_cast<int>( (mouseY - y_offset) / cellSize[ci]);
+
+            for(int i = std::min(hull_filling_end.first, hull_filling_begin.first); i <= std::max(hull_filling_end.first, hull_filling_begin.first); i++)
+                for(int j = std::min(hull_filling_end.second, hull_filling_begin.second); j <= std::max(hull_filling_end.second, hull_filling_begin.second); j++)
+                    ship_hull[i + j * dimX] = fill_color;
+
+            fill_color = 0;
+        }
+    }
+
     void handleClick(int x, int y)
     {
         if(open_ship_list.detectEvent(x, y) && construction_mode != LOG_OPEN) //open ship load list
@@ -331,6 +388,12 @@ struct space_ship_constructor
                         ship_hull[ static_cast<int>( (x - x_offset) / cellSize[ci]) +
                             static_cast<int>( (y - y_offset) / cellSize[ci]) * dimX] = 0;
                 }
+            if(fill_color == 0)
+            {
+                fill_color = ship_hull[ static_cast<int>( (x - x_offset) / cellSize[ci]) + static_cast<int>( (y - y_offset) / cellSize[ci]) * dimX];
+                hull_filling_begin.first = static_cast<int>( (x - x_offset) / cellSize[ci]);
+                hull_filling_begin.second = static_cast<int>( (y - y_offset) / cellSize[ci]);
+            }
         }
 
         else if(construction_mode == LOADING_SHIP) //load new hull
@@ -389,7 +452,7 @@ struct space_ship_constructor
     void save_ship(int xDim, int yDim)
     {
         std::ofstream ships_data;
-        ships_data.open("ships_data.txt", std::ios::app);
+        ships_data.open("data/new_ships_data.txt", std::ios::app);
 
         int cell_count = 0;
         for(int j = 0; j < yDim; j++)
@@ -397,7 +460,7 @@ struct space_ship_constructor
                 if(ship_hull[i + j * dimX])
                     cell_count++;
 
-        ships_data << ship_names[ship_save_index] << std::endl << xDim << " " << yDim << " " << cell_count << " 1" << std::endl;
+        ships_data << creating_hull_name << std::endl << xDim << " " << yDim << " " << cell_count << " 1" << std::endl;
 
         for(int j = 0; j < yDim; j++)
         {

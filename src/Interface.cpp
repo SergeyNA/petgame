@@ -460,6 +460,7 @@ public:
 
     void closeShipyard()
     {
+        ship.fill_color = 0;
         shipyard_open = false;
         main_menu = true;
         back_from_yard_to_main_menu.offButton();

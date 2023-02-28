@@ -434,15 +434,15 @@ public:
                 {
                 case fleetDestination::DOWNWARD:
                     it->moveFleet(focus.first, focus.second+1, 1);
-                    logMessage += sectors[focus.first][focus.second].getStarCoordinate();
+                    logMessage += sectors[focus.first][focus.second+1].getStarCoordinate();
                     break;
                 case fleetDestination::UPWARD:
                     it->moveFleet(focus.first, focus.second-1, 1);
-                    logMessage += sectors[focus.first][focus.second].getStarCoordinate();
+                    logMessage += sectors[focus.first][focus.second-1].getStarCoordinate();
                     break;
                 case fleetDestination::LEFTWARD:
                     it->moveFleet(focus.first-1, focus.second, 1);
-                    logMessage += sectors[focus.first][focus.second].getStarCoordinate();
+                    logMessage += sectors[focus.first-1][focus.second].getStarCoordinate();
                     break;
                 case fleetDestination::RIGHTWARD:
                     it->moveFleet(focus.first+1, focus.second, 1);
@@ -451,7 +451,7 @@ public:
                 case fleetDestination::STAND:
                     break;
                 }
-                std::cout<<logMessage<<std::endl;
+                if(fleetDir != fleetDestination::STAND) {action_handler(MOVING_FLEET);}
             }
 
             focus = getSector(x, y).getPos();

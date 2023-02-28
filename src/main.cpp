@@ -165,12 +165,12 @@ int main(int argc, char* argv[])
                         ship.ci = 3;
                     }
                     break;
-                //===========case SDLK_s:
-                //    if(MENU.isShipyard())
-                //    {
-                //        ship.save_ship(25, 54);
-                //    }
-                //===========    break;
+//                case SDLK_s:
+//                    if(MENU.isShipyard())
+//                    {
+//                        ship.save_ship(CREATING_HULL_WIDTH, CREATING_HULL_HEIGHT);
+//                    }
+//                    break;
                 case SDLK_e:
                     if( MENU.isShipyard() )
                     {
@@ -282,6 +282,7 @@ int main(int argc, char* argv[])
                 if(e.type == SDL_MOUSEBUTTONUP)
                 {
                     ship.ship_move = false;
+                    ship.fill_hull();
                 }
                 if(ship.ship_move)
                 {

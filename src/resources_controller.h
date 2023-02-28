@@ -25,7 +25,7 @@ int science_points;
 int action_limits;
 int action_points;
 
-enum game_event {GAME_NEW_TURN, GAME_ATTACK, BUILD_SHIP, EXPLORATION, HULL_CREATION, DO_RESEARCH};
+enum game_event {GAME_NEW_TURN, GAME_ATTACK, BUILD_SHIP, EXPLORATION, HULL_CREATION, DO_RESEARCH, MOVING_FLEET};
 void action_handler(game_event e);
 void openTechnology(int index);
 

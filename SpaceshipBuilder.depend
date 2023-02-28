@@ -23,7 +23,7 @@
 
 1677259197 /home/serg/gamedev/SpaceshipBuilder/src/SDL_func.cpp
 
-1677371626 source:/home/serg/gamedev/SpaceshipBuilder/src/main.cpp
+1677558225 source:/home/serg/gamedev/SpaceshipBuilder/src/main.cpp
 	<iostream>
 	<string>
 	<stdio.h>
@@ -47,7 +47,7 @@
 	"Logger.cpp"
 	"Game_logic.cpp"
 
-1677035403 /home/serg/gamedev/SpaceshipBuilder/src/resources_controller.h
+1677537051 /home/serg/gamedev/SpaceshipBuilder/src/resources_controller.h
 
 1677464089 /home/serg/gamedev/SpaceshipBuilder/src/Fleet.cpp
 
@@ -55,7 +55,7 @@
 
 1533386911 /home/serg/gamedev/SpaceshipBuilder/src/Scroller.cpp
 
-1677273106 /home/serg/gamedev/SpaceshipBuilder/src/Interface.cpp
+1677558692 /home/serg/gamedev/SpaceshipBuilder/src/Interface.cpp
 
 1677257397 /home/serg/gamedev/SpaceshipBuilder/src/game_logic.cpp
 
@@ -69,9 +69,9 @@
 
 1533506977 /home/serg/gamedev/SpaceshipBuilder/src/Tips.cpp
 
-1677335673 /home/serg/gamedev/SpaceshipBuilder/src/Space_ship_constructor.cpp
+1677558146 /home/serg/gamedev/SpaceshipBuilder/src/Space_ship_constructor.cpp
 
-1677464247 /home/serg/gamedev/SpaceshipBuilder/src/Map.cpp
+1677537270 /home/serg/gamedev/SpaceshipBuilder/src/Map.cpp
 
-1677371460 /home/serg/gamedev/SpaceshipBuilder/src/Game_logic.cpp
+1677558318 /home/serg/gamedev/SpaceshipBuilder/src/Game_logic.cpp
 

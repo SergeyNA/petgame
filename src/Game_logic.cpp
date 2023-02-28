@@ -59,7 +59,7 @@ void action_handler(game_event e)
         break;
 
     case HULL_CREATION:
-        ship.load_ship();
+        ship.load_ship(2, false);
         ship.open_ship_list.onButton();
         ship.build_spaceship.onButton();
         break;
@@ -86,6 +86,9 @@ void action_handler(game_event e)
         research_index = -1;
         break;
 
+    case MOVING_FLEET:
+        LOG.add_message(logMessage, GRAY, 0);
+        break;
     }
 }
 
@@ -118,6 +121,18 @@ void openTechnology(int index)
             ship.ship_names.push_back("Human_8");
             ship.ship_names.push_back("Human_9");
             ship.ship_names.push_back("Human_10");
+        }
+        break;
+    case 21:
+        if(technologies[21].research_progress == 1)
+        {
+            ship.ship_names.push_back("Human_11");
+        }
+        break;
+    case 22:
+        if(technologies[22].research_progress == 1)
+        {
+            ship.ship_names.push_back("Human_12");
         }
         break;
     /*case 24:
