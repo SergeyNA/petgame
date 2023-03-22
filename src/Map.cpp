@@ -20,6 +20,15 @@ std::string getOwnerRecord(own owner)
     case own::PIRATES:
         answ = "Pirates";
         break;
+    case own::ALIENS1:
+        answ = "Xelors";
+        break;
+    case own::ALIENS2:
+        answ = "Snake Empire";
+        break;
+    case own::REBELS:
+        answ = "Rebels";
+        break;
     default:
         answ = "Undefined";
     }
@@ -284,6 +293,9 @@ private:
     WrapTexture map_icon_humans;
     WrapTexture map_icon_player;
     WrapTexture map_icon_pirate;
+    WrapTexture map_icon_rebels;
+    WrapTexture map_icon_aliens1;
+    WrapTexture map_icon_aliens2;
     WrapTexture fleet_icon_player;
     WrapTexture fleet_icon_player2;
 
@@ -332,6 +344,15 @@ private:
                 case own::PIRATES:
                     link->render_icon(&map_icon_pirate);
                     break;
+                case own::REBELS:
+                    link->render_icon(&map_icon_rebels);
+                    break;
+                case own::ALIENS1:
+                    link->render_icon(&map_icon_aliens1);
+                    break;
+                case own::ALIENS2:
+                    link->render_icon(&map_icon_aliens2);
+                    break;
                 default:
                     break;
             }
@@ -359,6 +380,12 @@ public:
         if(!map_icon_unknow.loadFromFile("map_icon_q.png", true))
             return false;
         if(!map_icon_player.loadFromFile("map_player_emblem.png", true))
+            return false;
+        if(!map_icon_rebels.loadFromFile("rebels_icon.png", true))
+            return false;
+        if(!map_icon_aliens2.loadFromFile("snake_icon.png", true))
+            return false;
+        if(!map_icon_aliens1.loadFromFile("aliens_icon.png", true))
             return false;
         if(!map_icon_pirate.loadFromFile("empire_emblem_pirates_2.png", true))
             return false;
@@ -388,14 +415,63 @@ public:
         for(int i = 10; i < 15; i++)
             for(int j = 4; j < i - 5; j++)
             {
-                sectors[i][j].setOwner(own::HUMANITY, getOwnerRecord(own::HUMANITY));
+                if(rand() % 5 == 0)
+                    sectors[i][j].setOwner(own::REBELS, getOwnerRecord(own::REBELS));
+                else
+                    sectors[i][j].setOwner(own::HUMANITY, getOwnerRecord(own::HUMANITY));
             }
-        sectors[11][3].setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
-        sectors[11][3].planet_counter = true;
-        sectors[9][3].setVisible();
-        sectors[11][3].resetPlanets();
-        sectors[11][3].addPlanet(terrain::terran, proportions::normal, 100, 125, false);
-        sectors[11][3].addPlanet(terrain::oceanic, proportions::large, 150, 250, false);
+
+        int player_home_x = rand() % 16;
+        int player_home_y = rand() % 10;
+        if(player_home_x - 1 >= 0)
+            sectors[player_home_x - 1][player_home_y].setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
+        if(player_home_x + 1 < 16)
+            sectors[player_home_x + 1][player_home_y].setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
+        if(player_home_y - 1 >= 0)
+            sectors[player_home_x][player_home_y - 1].setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
+        if(player_home_y + 1 < 10)
+            sectors[player_home_x][player_home_y + 1].setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
+
+        int snake_invasion = rand() % 2;
+        if(snake_invasion == 0)
+        {
+            int invasion_deep = rand() % 3 + 1;
+            int invasion_center = rand() % 16;
+            int invasion_spread = 0;
+            while(invasion_deep-- > 0)
+            {
+                for(int snake_index = invasion_center - invasion_spread; snake_index <= invasion_center + invasion_spread; snake_index++)
+                {
+                    if(snake_index >= 0 && snake_index < 16)
+                        sectors[snake_index][invasion_deep].setOwner(own::ALIENS2, getOwnerRecord(own::ALIENS2));
+                }
+                invasion_spread++;
+            }
+        }
+
+        int xenos_invasion = rand() % 2;
+        if(xenos_invasion == 0)
+        {
+            int invasion_deep = rand() % 3 + 1;
+            int invasion_center = rand() % 10;
+            int invasion_spread = 0;
+            while(invasion_deep-- > 0)
+            {
+                for(int xenos_index = invasion_center - invasion_spread; xenos_index <= invasion_center + invasion_spread; xenos_index++)
+                {
+                    if(xenos_index >= 0 && xenos_index < 10)
+                        sectors[invasion_deep][xenos_index].setOwner(own::ALIENS1, getOwnerRecord(own::ALIENS1));
+                }
+                invasion_spread++;
+            }
+        }
+
+        sectors[player_home_x][player_home_y].setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
+        sectors[player_home_x][player_home_y].planet_counter = true;
+        sectors[player_home_x][player_home_y].setVisible();
+        sectors[player_home_x][player_home_y].resetPlanets();
+        sectors[player_home_x][player_home_y].addPlanet(terrain::terran, proportions::normal, 100, 125, false);
+        sectors[player_home_x][player_home_y].addPlanet(terrain::oceanic, proportions::large, 150, 250, false);
 
         quadrant_title.loadFromRenderedText("Quadrant:", YELLOW, 2);
         quadrant_title.setRenderPos(SCREEN_WIDTH - 290, 120);

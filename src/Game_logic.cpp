@@ -135,9 +135,8 @@ void openTechnology(int index)
             ship.ship_names.push_back("Human_12");
         }
         break;
-    /*case 24:
-        if(technologies[24].research_progress == 1)
-            ship.ship_names.push_back("Human_2");
-        break;*/
+    case 24:
+        //if(technologies[24].research_progress == 1) {ship.ship_names.push_back("Human_2");}
+        break;
     }
 }

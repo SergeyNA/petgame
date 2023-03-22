@@ -23,8 +23,10 @@
 #include "Logger.cpp"
 #include "Game_logic.cpp"
 
-bool game_res_init()
+bool game_res_init(bool true_rand)
 {
+    if(true_rand) {srand(time(0));}
+
     if(!loadFont("courier", 20, 0))
         return false;
     if(!loadFont("block", 20, 1))
@@ -135,7 +137,7 @@ int main(int argc, char* argv[])
     if(!SDL_initialaize())
         return 1;
 
-    if(!game_res_init())
+    if(!game_res_init(false))
         return 2;
 
     SDL_Event e;

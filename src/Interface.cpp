@@ -182,7 +182,7 @@ public:
         res_counter.setRenderPos(25, 30);
 
         //TTF_SetFontStyle(gFont[0], TTF_STYLE_BOLD);
-        colonize1.loadFromRenderedText("Populate", GREEN, 1);
+        colonize1.loadFromRenderedText("Colonize", GREEN, 1);
         colonize1.setRenderPos(SCREEN_WIDTH * 2 / 3 - SCREEN_WIDTH / 7 + 40, SCREEN_HEIGHT / 3 - 20);
         colonize2.loadFromRenderedText("New World", GREEN, 1);
         colonize2.setRenderPos(SCREEN_WIDTH * 2 / 3 - SCREEN_WIDTH / 7 + 30, SCREEN_HEIGHT / 3 + 135);
