@@ -150,7 +150,7 @@ public:
             return false;
         actions.setRenderPos(SCREEN_WIDTH / 2 - 250, SCREEN_HEIGHT / 2 - 170);
 
-        top_scroller.init(SCREEN_WIDTH / 4 + 75, 20, SCREEN_WIDTH * 3 / 4 - 75, 40, "foo.png", 181, 149, 213);
+        top_scroller.init(SCREEN_WIDTH / 4 + 100, 28, SCREEN_WIDTH * 3 / 4 - 50, 48, "foo.png", 181, 149, 213);
         tree_scroller.init(SCREEN_WIDTH / 3 - 20, 80, SCREEN_WIDTH / 3, SCREEN_HEIGHT, "Scroller-icon.png", 181, 149, 213);
         tree_scroller.setPosition(0);
         ship.ship_list_scroller.init(SCREEN_WIDTH * 3 / 4 - 13, SCREEN_HEIGHT - 70 - ship_load_list_height + 6 + 8, SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT - 70 - ship_load_list_height + 6 + 20 * ship_load_list_members, "vertical_tight_scroller_icon.png", 255, 228, 181);
@@ -159,11 +159,11 @@ public:
 
         if(!res_per_round.loadFromRenderedText(toString(static_cast<int>(floor(people * top_scroller.getVal() + .5))), GRAY, 0))
             return false;
-        res_per_round.setRenderPos(SCREEN_WIDTH / 4 - 40 + 75, 22);
+        res_per_round.setRenderPos(SCREEN_WIDTH / 4 - 40 + 75, 30);
         tips[0].init("The amount of resources receiving at the turn's end", &res_per_round, 280);
         if(!science_per_round.loadFromRenderedText(toString(static_cast<int>(floor(people * (1 - top_scroller.getVal()) + .5))), BLUE, 0))
             return false;
-        science_per_round.setRenderPos(SCREEN_WIDTH * 3 / 4 + 25 - 75, 22);
+        science_per_round.setRenderPos(SCREEN_WIDTH * 3 / 4 + 25 - 65, 30);
         tips[1].init("The amount of tech points receiving at the turn's end", &science_per_round, 280);
         tips[2].init("1'st: total amount of required resources 2'nd: reduction in your population after build 3'rd: required actions", &ship.ship_cost_title, 235);
         tips[3].init("Not enough resources for construction the scpaceship", ship.build_spaceship.getTexture(), 280);
@@ -244,9 +244,9 @@ public:
         human_count.loadFromRenderedText("Population: " + toString(people), YELLOW, 0);
         human_count.setRenderPos(25, 55);
         res_per_round.loadFromRenderedText(toString(static_cast<int>(floor(people * top_scroller.getVal()) + .5)), GRAY, 0, false);
-        res_per_round.setRenderPos(SCREEN_WIDTH / 4 - 40 + 75, 22);
+        res_per_round.setRenderPos(SCREEN_WIDTH / 4 - 40 + 75, 30);
         science_per_round.loadFromRenderedText(toString(static_cast<int>( people -  floor(people * top_scroller.getVal()) + .5) ), BLUE, 0, false);
-        science_per_round.setRenderPos(SCREEN_WIDTH * 3 / 4 + 25 - 75, 22);
+        science_per_round.setRenderPos(SCREEN_WIDTH * 3 / 4 + 25 - 65, 30);
         research_points.loadFromRenderedText("Tech potential:" + toString(science_points), BLUE, 0);
         research_points.setRenderPos(25, 5);
         res_counter.loadFromRenderedText("Resourses:" + toString(resourses), GRAY, 0);
