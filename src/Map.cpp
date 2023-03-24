@@ -311,7 +311,7 @@ private:
     bool paint_arrow = false;
     fleetDestination fleetDir = fleetDestination::STAND;
 
-    Sector getSector(int x, int y)
+    Sector& getSector(int x, int y)
     {
         return sectors[(x - 20) / 40][(y - 122) / 40];
     }
@@ -375,7 +375,7 @@ public:
             return false;
         if(!selected_arrow.loadFromFile("selected_arrow_up.png", true))
             return false;
-        if(!map_icon_humans.loadFromFile("map_humanity.png", true))
+        if(!map_icon_humans.loadFromFile("map_humanity2.png", true))
             return false;
         if(!map_icon_unknow.loadFromFile("map_icon_q.png", true))
             return false;
@@ -423,6 +423,8 @@ public:
 
         int player_home_x = rand() % 16;
         int player_home_y = rand() % 10;
+        mapPosition.first = player_home_x;
+        mapPosition.second = player_home_y;
         if(player_home_x - 1 >= 0)
             sectors[player_home_x - 1][player_home_y].setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
         if(player_home_x + 1 < 16)
@@ -527,10 +529,19 @@ public:
                 case fleetDestination::STAND:
                     break;
                 }
-                if(fleetDir != fleetDestination::STAND) {action_handler(MOVING_FLEET);}
+                if(fleetDir != fleetDestination::STAND)
+                {
+                    mapPosition.first = it->getX();
+                    mapPosition.second = it->getY();
+                    action_handler(MOVING_FLEET);
+                }
             }
 
-            focus = getSector(x, y).getPos();
+
+            if(focus != getSector(x, y).getPos())
+                focus = getSector(x, y).getPos();
+            else
+                this->delFocus();
 
             paint_arrow = false;
             for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
@@ -545,6 +556,10 @@ public:
                 }
             }
         }
+    }
+    Sector& getSector(std::pair<int, int> coordinates)
+    {
+        return sectors[coordinates.first][coordinates.second];
     }
     bool isInvestigatable(int x, int y)
     {

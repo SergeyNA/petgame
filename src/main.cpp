@@ -57,10 +57,8 @@ bool game_res_init(bool true_rand)
     close_branch.loadFromFile("research_trig_close.png", true);
     open_branch.loadFromFile("research_trig_open.png", true);
 
-    fleets.push_back(Fleet(9, 3));
-    fleets[0].addShip(120);
-    fleets.push_back(Fleet(11, 3));
-    fleets[1].addShip(250);
+    fleets.push_back(Fleet(mapPosition.first, mapPosition.second));
+    fleets[0].addShip(12000);
 
     technologies[0].init("ROOT", 0, 0, 0, new int[1]{0});
     technologies[0].setChildren(new int[5]{1, 2, 3, 4, 5}, 5);
@@ -137,7 +135,7 @@ int main(int argc, char* argv[])
     if(!SDL_initialaize())
         return 1;
 
-    if(!game_res_init(false))
+    if(!game_res_init(true))
         return 2;
 
     SDL_Event e;

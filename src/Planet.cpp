@@ -36,7 +36,7 @@ public:
     }
     void newTurn()
     {
-        population *= colonization_diff;
+        population = population * colonization_diff + 1;
         if(population > max_population)
             population = max_population;
     }
@@ -108,7 +108,7 @@ public:
         return answ;
     }
 
-    void init(proportions size_of_planet, terrain surface, int people = 0, int people_max = 0)
+    void init(proportions size_of_planet, terrain surface, int people = 1, int people_max = 1)
     {
         population = people;
         max_population = people_max;
@@ -118,7 +118,7 @@ public:
         discover_diff = 0.5;
         rich = 1;
 
-        if(max_population == 0)
+        if(max_population == 1)
         {
             switch(landscape)
             {

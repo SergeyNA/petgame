@@ -36,6 +36,7 @@ int y_offset;
 int research_tree_offset;
 bool node_is_shifted;
 std::string logMessage = "";
+std::pair<int, int> mapPosition;
 
 enum Construction_mode {OVERVIEW_MODE, CREATE_HULL_MODE = 0, LOG_OPEN, LOADING_SHIP} construction_mode;
 
