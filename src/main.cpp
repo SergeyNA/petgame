@@ -211,6 +211,12 @@ int main(int argc, char* argv[])
                     MENU.top_scroller.setPosition(-0.099, true);
                     MENU.updTopMenu();
                     break;
+                case SDLK_LEFT:
+                case SDLK_RIGHT:
+                case SDLK_UP:
+                case SDLK_DOWN:
+                    MENU.key_fleet_move_check(e.key.keysym.sym);
+                    break;
                 default:
                     printf("Physical %s key acting as %s key\n",
                         SDL_GetScancodeName(e.key.keysym.scancode),

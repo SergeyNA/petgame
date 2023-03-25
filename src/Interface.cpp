@@ -448,6 +448,12 @@ public:
         }
     }
 
+    void key_fleet_move_check(SDL_Keycode arrow_code)
+    {
+        if(logger_off && map_open)
+            field.key_fleet_move_check(arrow_code);
+    }
+
     bool isMainMenu()
     {
         return main_menu;

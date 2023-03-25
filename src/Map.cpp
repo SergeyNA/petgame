@@ -557,6 +557,67 @@ public:
             }
         }
     }
+    void key_fleet_move_check(SDL_Keycode arrow_code)
+    {
+        if(paint_arrow)
+        {
+            logMessage = "Your starfleet is moving from sector " + sectors[focus.first][focus.second].getStarCoordinate() + " to ";
+            std::vector<Fleet>::iterator it;
+            for(it = fleets.begin(); it != fleets.end(); it++)
+            {
+                if(it->isHere(focus.first, focus.second)) {break;}
+            }
+            bool destination_inside_starmap = false;
+            switch(arrow_code)
+            {
+            case SDLK_DOWN:
+                if(focus.second+1 < 10)
+                {
+                    it->moveFleet(focus.first, focus.second+1, 1);
+                    if(!it->canMoved()) {paint_arrow = false;}
+                    logMessage += sectors[focus.first][focus.second+1].getStarCoordinate();
+                    destination_inside_starmap = true;
+                }
+                break;
+            case SDLK_UP:
+                if(focus.second-1 >= 0)
+                {
+                    it->moveFleet(focus.first, focus.second-1, 1);
+                    if(!it->canMoved()) {paint_arrow = false;}
+                    logMessage += sectors[focus.first][focus.second-1].getStarCoordinate();
+                    destination_inside_starmap = true;
+                }
+                break;
+            case SDLK_LEFT:
+                if(focus.first-1 >= 0)
+                {
+                    it->moveFleet(focus.first-1, focus.second, 1);
+                    if(!it->canMoved()) {paint_arrow = false;}
+                    logMessage += sectors[focus.first-1][focus.second].getStarCoordinate();
+                    destination_inside_starmap = true;
+                }
+                break;
+            case SDLK_RIGHT:
+                if(focus.first+1 < 16)
+                {
+                    it->moveFleet(focus.first+1, focus.second, 1);
+                    if(!it->canMoved()) {paint_arrow = false;}
+                    logMessage += sectors[focus.first+1][focus.second].getStarCoordinate();
+                    destination_inside_starmap = true;
+                }
+                break;
+            default:
+                break;
+            }
+            if(destination_inside_starmap)
+            {
+                mapPosition.first = it->getX();
+                mapPosition.second = it->getY();
+                focus = mapPosition;
+                action_handler(MOVING_FLEET);
+            }
+        }
+    }
     Sector& getSector(std::pair<int, int> coordinates)
     {
         return sectors[coordinates.first][coordinates.second];

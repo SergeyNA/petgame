@@ -89,7 +89,7 @@ void action_handler(game_event e)
     case MOVING_FLEET:
         LOG.add_message(logMessage, GRAY, 0);
         field.getSector(mapPosition).setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
-        LOG.add_message("You are sector owner", GREEN, 0);
+        LOG.add_message("You are sector owner now", GREEN, 0);
         break;
     }
 }

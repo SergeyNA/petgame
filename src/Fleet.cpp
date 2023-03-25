@@ -65,5 +65,5 @@ public:
     }
 };
 
-int Fleet::move_per_turn = 20;
+int Fleet::move_per_turn = 2;
 std::vector<Fleet> fleets;
