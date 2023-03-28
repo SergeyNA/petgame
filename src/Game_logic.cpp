@@ -8,7 +8,6 @@ void action_handler(game_event e)
         for(std::vector<Fleet>::iterator it = fleets.begin(); it != fleets.end(); it++)
             it->newTurn();
 
-        //people = static_cast<int>(people * 1.1); //set zero instead of
         people = 0;
         field.newTurn();
 
@@ -88,8 +87,44 @@ void action_handler(game_event e)
 
     case MOVING_FLEET:
         LOG.add_message(logMessage, GRAY, 0);
-        field.getSector(mapPosition).setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
-        LOG.add_message("You are sector owner now", GREEN, 0);
+        if(field.getSector(mapPosition).getOwnerIndex() == own::NONE)
+        {
+            field.getSector(mapPosition).setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
+            LOG.add_message("You are sector owner now", GREEN, 0);
+        }
+        else if(field.getSector(mapPosition).getOwnerIndex() == own::PLAYER) {}
+        else
+        {
+            Sector& sector = field.getSector(mapPosition);
+            sector.setShadow(false);
+
+            for(int index = 0; index < static_cast<int>(fleets.size()); index++)
+            {
+                if(sector.getPos().first == fleets[index].getX() && sector.getPos().second == fleets[index].getY())
+                {
+                    if(sector.getRawPower() == fleets[index].getPower())
+                    {
+                        sector.setOwner(own::NONE, getOwnerRecord(own::NONE), true);
+                        fleets.erase(fleets.begin() + index);
+                        field.disableArrow();
+                        LOG.add_message("Your fleet was defeated in " + sector.getStarCoordinate(), font_colors::YELLOW, 0);
+                    }
+                    else if(sector.getRawPower() > fleets[index].getPower())
+                    {
+                        fleets.erase(fleets.begin() + index);
+                        field.disableArrow();
+                        LOG.add_message("Your fleet was defeated in " + sector.getStarCoordinate(), font_colors::RED, 0);
+                    }
+                    else
+                    {
+                        fleets[index].battle(sector.getRawPower());
+                        sector.setOwner(own::PLAYER, getOwnerRecord(own::PLAYER));
+                        LOG.add_message("Yours fleet is starbattle winner!", GREEN, 0);
+                        LOG.add_message("You are sector " + sector.getStarCoordinate() + " owner now", font_colors::WHITE, 0);
+                    }
+                }
+            }
+        }
         break;
     }
 }

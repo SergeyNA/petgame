@@ -63,7 +63,11 @@ public:
     {
         power += ship_power;
     }
+    void battle(int enemy_power)
+    {
+        power -= enemy_power;
+    }
 };
 
-int Fleet::move_per_turn = 2;
+int Fleet::move_per_turn = 4;
 std::vector<Fleet> fleets;

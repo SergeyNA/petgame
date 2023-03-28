@@ -58,7 +58,29 @@ bool game_res_init(bool true_rand)
     open_branch.loadFromFile("research_trig_open.png", true);
 
     fleets.push_back(Fleet(mapPosition.first, mapPosition.second));
-    fleets[0].addShip(12000);
+    fleets[0].addShip(1200);
+    for(int i = 0; i < 16; i++)
+        for(int j = 0; j < 10; j++)
+        {
+            switch(field.getSector(std::make_pair(i, j)).getOwnerIndex())
+            {
+                case own::NONE:
+                    field.getSector(std::make_pair(i, j)).killPeople();
+                    break;
+                case own::PLAYER:
+                    if(rand() % 3 != 0)
+                    {
+                        if(mapPosition.first != i || mapPosition.second != j)
+                        {
+                            fleets.push_back(Fleet(i, j));
+                            fleets.back().addShip(500);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
     technologies[0].init("ROOT", 0, 0, 0, new int[1]{0});
     technologies[0].setChildren(new int[5]{1, 2, 3, 4, 5}, 5);

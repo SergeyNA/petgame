@@ -230,6 +230,7 @@ public:
             discover_diff /= 4;
             break;
         case proportions::dwarf:
+            discover_diff /= 3;
             break;
         case proportions::small:
             discover_diff /= 2;

@@ -52,15 +52,13 @@ public:
     bool planet_counter;
     bool show_defense;
 
-    //Sector() {planets.reserve(4);}
-
     void init(int x, int y, int reach, int abundant)
     {
         v = x;
         h = y;
         shadow = true;
         planet_counter = false;
-        show_defense = false;
+        show_defense = true;
         difficult = reach;
         wealth = abundant;
         investigate_count = 0;
@@ -168,6 +166,21 @@ public:
                 it->discover();
         }
     }
+    void killPeople()
+    {
+        for(std::vector<Planet>::iterator it = planets.begin(); it != planets.end(); it++)
+        {
+            it->population = 0;
+        }
+    }
+    void captureSector()
+    {
+        for(std::vector<Planet>::iterator it = planets.begin(); it != planets.end(); it++)
+        {
+            if(it->population == 0)
+                it->population = 1;
+        }
+    }
 
     int getExploredPC()
     {
@@ -208,7 +221,7 @@ public:
                 people += planets[i].getPopulation();
             }
         }
-        else
+        else if(owner != own::NONE)
         {
             for(unsigned int i = 0; i < planets.size(); i++)
             {
@@ -250,6 +263,15 @@ public:
         {
             if(v == fleets[index].getX() && h == fleets[index].getY())
                 answ += fleets[index].getPower();
+        }
+        return answ;
+    }
+    int getRawPower()
+    {
+        int answ = 0;
+        for(std::vector<Planet>::iterator it = planets.begin(); it != planets.end(); it++)
+        {
+            answ += 100 * it->getPopulation();
         }
         return answ;
     }
@@ -401,8 +423,6 @@ public:
             for(int j = 0; j < 10; j++)
             {
                 sectors[i][j].init(i, j, rand() % 4, rand() % 5);
-                /*sectors[i][j].print_planets();
-                std::cout<<std::endl;*/
             }
 
         for(int i = 0; i < 16; i++)
@@ -534,6 +554,7 @@ public:
                     mapPosition.first = it->getX();
                     mapPosition.second = it->getY();
                     action_handler(MOVING_FLEET);
+                    if(paint_arrow) {if(it->canMoved()) {paint_arrow = false;}}
                 }
             }
 
@@ -557,6 +578,10 @@ public:
             }
         }
     }
+    void disableArrow()
+    {
+        paint_arrow = false;
+    }
     void key_fleet_move_check(SDL_Keycode arrow_code)
     {
         if(paint_arrow)
@@ -574,7 +599,6 @@ public:
                 if(focus.second+1 < 10)
                 {
                     it->moveFleet(focus.first, focus.second+1, 1);
-                    if(!it->canMoved()) {paint_arrow = false;}
                     logMessage += sectors[focus.first][focus.second+1].getStarCoordinate();
                     destination_inside_starmap = true;
                 }
@@ -583,7 +607,6 @@ public:
                 if(focus.second-1 >= 0)
                 {
                     it->moveFleet(focus.first, focus.second-1, 1);
-                    if(!it->canMoved()) {paint_arrow = false;}
                     logMessage += sectors[focus.first][focus.second-1].getStarCoordinate();
                     destination_inside_starmap = true;
                 }
@@ -592,7 +615,6 @@ public:
                 if(focus.first-1 >= 0)
                 {
                     it->moveFleet(focus.first-1, focus.second, 1);
-                    if(!it->canMoved()) {paint_arrow = false;}
                     logMessage += sectors[focus.first-1][focus.second].getStarCoordinate();
                     destination_inside_starmap = true;
                 }
@@ -601,7 +623,6 @@ public:
                 if(focus.first+1 < 16)
                 {
                     it->moveFleet(focus.first+1, focus.second, 1);
-                    if(!it->canMoved()) {paint_arrow = false;}
                     logMessage += sectors[focus.first+1][focus.second].getStarCoordinate();
                     destination_inside_starmap = true;
                 }
@@ -615,6 +636,7 @@ public:
                 mapPosition.second = it->getY();
                 focus = mapPosition;
                 action_handler(MOVING_FLEET);
+                if(paint_arrow) {if(!it->canMoved()) {paint_arrow = false;}}
             }
         }
     }
